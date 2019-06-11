@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 mongoose
   .connect(
-    "mongodb+srv://azusoluser:password2019@cluster0-pydbi.mongodb.net/test?retryWrites=true&w=majority"
+    "mongodb+srv://azusoluser:password2019@cluster0-pydbi.mongodb.net/test?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
     //"mongodb://localhost/playground"
   )
   .then(db => {
