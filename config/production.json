@@ -1,0 +1,7 @@
+{
+  "dbString": "mongodb+srv://azusoluser:password2019@cluster0-pydbi.mongodb.net/test?retryWrites=true&w=majority",
+  "emailServer": {
+    "user": "",
+    "password": ""
+  }
+}

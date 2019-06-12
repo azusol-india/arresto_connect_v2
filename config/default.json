@@ -1,0 +1,7 @@
+{
+  "dbString": "mongodb://localhost/playground",
+  "emailServer": {
+    "user": "",
+    "password": ""
+  }
+}
