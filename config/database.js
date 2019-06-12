@@ -18,7 +18,7 @@ console.log(host);
 
 const dbConnection = function() {
   let conString = "";
-  if (host == "DESKTOP-5ESDTJT") {
+  if (host == "DESKTOP-5ESDTJT" || host == "Reema-PC") {
     conString = "mongodb://localhost/playground";
   } else {
     conString =

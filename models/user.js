@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+
 //console.log(config.get("dbString"));
 
-mongoose
+/* mongoose
   .connect(
     //"mongodb+srv://azusoluser:password2019@cluster0-pydbi.mongodb.net/test?retryWrites=true&w=majority",
     "mongodb://localhost/playground",
@@ -14,8 +15,7 @@ mongoose
     console.log(err.message);
     console.log("mongo connection error");
   });
-
-mongoose.testProperty = "sachin tyagi";
+ */
 
 const userSchema = new mongoose.Schema({
   name: {
