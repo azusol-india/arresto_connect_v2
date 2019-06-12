@@ -37,4 +37,3 @@ const dbConnection = function() {
 };
 
 module.exports = dbConnection;
-// new comment added
