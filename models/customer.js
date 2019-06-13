@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
-console.log("*********************** setting mongoose property");
-mongoose.testProp = "sachin kumar tyagi";
 //require("../database")();
-
 const customerSchema = new mongoose.Schema({
   name: String,
-  mobile: Number,
-  companyName: String
+  mobile: {
+    type: Number,
+    unique: 1
+  },
+  companyName: {
+    type: String,
+    unique: true,
+    required: true
+  }
 });
 
 // compile the schema into the cutomer model
