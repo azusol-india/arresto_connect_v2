@@ -7,9 +7,11 @@ require("./config/database")();
 //Appling the middle ware
 const userRouter = require("./routers/users");
 const customerRouetr = require("./routers/customers");
+const mdataRouter = require("./routers/mdata");
 
 app.use("/api/users", userRouter);
 app.use("/api/customers", customerRouetr);
+app.use("/api/mdata", mdataRouter);
 
 app.get("/", (req, res) => {
   res.send("Node server running successfully !!");

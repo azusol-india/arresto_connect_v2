@@ -61,7 +61,7 @@ router.post("/", async (req, res) => {
 
   try {
     const valid = await Joi.validate(req.body, userSchema);
-    console.log("joi/client  validation pass =============###########");
+    console.log("joi/client  validation pass ");
     user = new User({
       name: req.body.name,
       email: req.body.email,
@@ -74,7 +74,6 @@ router.post("/", async (req, res) => {
     res.send(result);
   } catch (err) {
     console.log("client  validation Fail ====");
-    console.log("=========================");
     res.status(400).send(err.message);
   }
 
