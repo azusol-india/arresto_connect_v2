@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 //console.log(config.get("dbString"));
 
@@ -35,9 +36,7 @@ const userSchema = new mongoose.Schema({
   },
   profile: {
     type: new mongoose.Schema({
-      fname: {
-        type: String
-      },
+      fname: String,
       lname: String,
       imeiNo: String,
       companyName: String,
@@ -54,7 +53,6 @@ const userSchema = new mongoose.Schema({
         required: true
       }
     }),
-    required: true,
     required: true
   }
 });

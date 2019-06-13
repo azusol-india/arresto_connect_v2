@@ -16,32 +16,65 @@ router.get("/:id", (req, res) => {
   res.send('USER "ABC" listed successfully');
 });
 
+const addressSchema = Joi.object({
+  country: Joi.string().required(),
+  state: Joi.string(),
+  city: Joi.string(),
+  line1: Joi.string(),
+  line2: Joi.string(),
+  pincode: Joi.string()
+});
+const profileSchema = Joi.object().keys({
+  fname: Joi.string(),
+  lname: Joi.string(),
+  companyName: Joi.string(),
+  companyAddress: Joi.string(),
+  address: addressSchema
+});
+
+const userSchema = Joi.object().keys({
+  name: Joi.string()
+    .min(3)
+    .required(),
+  email: Joi.string().required(),
+  password: Joi.string()
+    .min(4)
+    .required(),
+  profile: profileSchema
+});
+
 // Register the USER
 router.post("/", async (req, res) => {
   // server side validation
   // validate the incoming request
-  const schema = Joi.object().keys({
+
+  /*   const schema = Joi.object().keys({
     name: Joi.string()
       .min(3)
       .required(),
     email: Joi.string().required(),
     password: Joi.string()
       .min(4)
-      .required()
-  });
+      .required(),
+    profile: Joi.obje
+  }); */
 
   try {
-    const valid = await Joi.validate(req.body, schema);
+    const valid = await Joi.validate(req.body, userSchema);
+    console.log("joi/client  validation pass =============###########");
     user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      profile: req.body.profile
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     const result = await user.save();
     res.send(result);
   } catch (err) {
+    console.log("client  validation Fail ====");
+    console.log("=========================");
     res.status(400).send(err.message);
   }
 
