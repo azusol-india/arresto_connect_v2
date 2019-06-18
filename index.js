@@ -8,10 +8,12 @@ require("./config/database")();
 const userRouter = require("./routers/users");
 const customerRouetr = require("./routers/customers");
 const mdataRouter = require("./routers/mdata");
+const assetRouter = require("./routers/assets");
 
 app.use("/api/users", userRouter);
 app.use("/api/customers", customerRouetr);
 app.use("/api/mdata", mdataRouter);
+app.use("/api/assets", assetRouter);
 
 app.get("/", (req, res) => {
   res.send("Node server running successfully !!");

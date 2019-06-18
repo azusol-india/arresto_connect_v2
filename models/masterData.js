@@ -75,9 +75,14 @@ MasterData.init(
   }
 );
 
-Asset.hasOne(MasterData);
+Asset.hasOne(MasterData, {
+  foreignKey: "asset",
+  foreignKeyConstraint: true
+});
 
-//MasterData.belongsTo(Asset);
+/* MasterData.belongsTo(Asset, {
+  constraints: false
+}); */
 
 console.log("===========================");
 
@@ -92,7 +97,7 @@ MasterData.findOne({
 })
   .then(mdata => {
     // get the instance of sequelize
-    mdata = mdata.get({ plain: true });
+    //mdata = mdata.get({ plain: true });
     console.log(mdata);
   })
   .catch(err => {

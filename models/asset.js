@@ -76,7 +76,8 @@ function getData() {
     .then(asset => {
       // get the instance of sequelize
       //asset = asset.get({ plain: true });
-      console.log(JSON.stringify(asset));
+
+      console.log(JSON.stringify(asset, null, 4));
       //return asset;
     })
     .catch(err => {
