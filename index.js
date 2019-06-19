@@ -29,4 +29,7 @@ app.get("/api", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, server => {
   console.log("server listening at port : " + PORT);
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('running at http://' + host + ':' + port)
 });
