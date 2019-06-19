@@ -71,7 +71,9 @@ Asset.init(
 
 function getData() {
   Asset.findAndCountAll({
-    //limit: 10
+    where: {
+      clientFk: 376
+    }
   })
     .then(asset => {
       // get the instance of sequelize
