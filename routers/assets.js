@@ -1,29 +1,47 @@
 const express = require("express");
 const routers = express.Router();
+const _ = require("lodash");
 
-const { Asset } = require("../models/asset"); // import the Asset Model
+const { Asset } = require("../models/asset");
+// import the Asset Model
 //console.log(Asset);
 
-routers.get("/", (req, res) => {
-  //implement the routes
-  console.log("asset called");
-  Asset.findAll({
-    where: {
-      clientFk: 376
-    },
-    limit: 1000
-  })
-    .then(assets => {
-      // get the instance of sequelize
-      //sendData = assets.get({ plain: true });
-      //console.log(JSON.stringify(assets, null, 4));
-      //sendData = assets.values();
-      res.send(JSON.stringify(assets, null, 4));
-    })
-    .catch(err => {
-      console.log(err.message);
-      res.status(404).send("no record found");
-    });
+/**
+ * Momgoose implementation
+ */
+routers.post("/", async (req, res) => {
+  // validate the post request
+  const reqData = _.pick(req.body, [
+    "clientfk",
+    "assetCode",
+    "desc",
+    "subAsset",
+    "image",
+    "uom",
+    "inspectinType",
+    "expectedResult",
+    "observation",
+    "isRepairable",
+    "geoFancing",
+    "status"
+  ]);
+  try {
+    const asset = new Asset(reqData);
+    await asset.save();
+    res.send(asset);
+  } catch (err) {
+    console.log("==== Error while  the document");
+    res.send(400).send(err.message);
+  }
+});
+
+//get the asset data
+routers.get("/", async (req, res) => {
+  const assets = await Asset.find();
+  if (!assets) {
+    res.status(404).send("no asset found !");
+  }
+  res.send(assets);
 });
 
 module.exports = routers;
