@@ -4,7 +4,7 @@ const assetSchema = new mongoose.Schema({
   clientFk: Number,
   assetCode: String,
   desc: String,
-  subAssets: [String],
+  subAsset: [String],
   image: String,
   uom: {
     type: String,
