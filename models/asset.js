@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const assetSchema = new mongoose.Schema({
   clientFk: Number,
   assetCode: String,
-  desc: String,
+  description: String,
   subAsset: [String],
   image: String,
   uom: {
@@ -15,10 +15,22 @@ const assetSchema = new mongoose.Schema({
   observation: [String],
   isRepairable: String,
   geoFancing: String,
-  status: String
+  workpermit: String,
+  frequencyMonths: String,
+  frequencyHours: String,
+  lifespanMonths: String,
+  lifespanHours: String,
+  pdmFrequency: String,
+  standered_certificate: String,
+  notified_certificate: String,
+  article11B_certificate: String,
+  ec_certificate: String,
+  status: String,
+  createdAt: String,
+  infonetStatus: String
 });
+
 const Asset = mongoose.model("Asset", assetSchema);
 
 function validateSchema() {}
-
 module.exports.Asset = Asset;
