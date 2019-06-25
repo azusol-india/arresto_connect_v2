@@ -29,7 +29,16 @@ router.get("/:uin", async (req, res) => {
           as: "assetInfo"
         }
       },
-      { $unwind: "$assetInfo" }
+      { $unwind: "$assetInfo" },
+      {
+        $lookup: {
+          form: "subassets",
+          localField: "subAsset",
+          foreignField: "subAssetCode",
+          as: "subAssetInfo"
+        }
+      },
+      { $unwind: "$subAsstInfo" }
       // { $addField: "$assetInfo" }
     ],
     (err, result) => {
