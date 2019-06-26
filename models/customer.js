@@ -28,4 +28,6 @@ const Customer = mongoose.model("Customer", customerSchema);
 }
 createCustomer(); */
 
+//** New comment added  */
+
 module.exports = Customer;
