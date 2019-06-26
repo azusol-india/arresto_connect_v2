@@ -30,4 +30,6 @@ createCustomer(); */
 
 //** New comment added  */
 
+//** second comment  added  */
+
 module.exports = Customer;
