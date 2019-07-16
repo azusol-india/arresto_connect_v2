@@ -1,8 +1,14 @@
 const express = require("express"); // return function
 const app = express();
 app.use(express.json());
-
 require("./config/database")();
+
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", ["*"]);
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 //Appling the middle ware
 const userRouter = require("./routers/users");
