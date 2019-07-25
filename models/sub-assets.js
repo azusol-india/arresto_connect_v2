@@ -1,23 +1,14 @@
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize("arresto2018", "root", "", {
-  host: "localhost",
-  dialect: "mysql"
-});
-// connection object
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch(err => {
-    console.error("Unable to connect to the database:", err);
-  });
+const { sequelize, Sequelize } = require("../config/sequelize");
+// const Model = sequelize.model();
 
-//sequelize.sync();
+// class Mdata extends Model {}
 
-const Model = Sequelize.Model;
-class Mdata extends Model {}
-Mdata.init(
+// Mdata.init({
+//   /** columns definition  */
+// });
+
+const Mdata = sequelize.define(
+  "mdata",
   {
     id: {
       type: Sequelize.NUMBER,
@@ -101,50 +92,6 @@ Mdata.init(
     timestamps: false
   }
 );
-
-Mdata.findAll()
-  .then(items => {
-    console.log("All users:", items);
-  })
-  .catch(err => {
-    console.log(err.message);
-  });
-
-console.log(Mdata);
-console.log();
-const mongoose = require("mongoose");
-
-const assetSchema = new mongoose.Schema({
-  clientFk: Number,
-  assetCode: String,
-  description: String,
-  subAsset: [String],
-  image: String,
-  uom: {
-    type: String,
-    required: 1
-  },
-  inspectionType: String,
-  expectedResult: [String],
-  observation: [String],
-  isRepairable: String,
-  geoFancing: String,
-  workpermit: String,
-  frequencyMonths: String,
-  frequencyHours: String,
-  lifespanMonths: String,
-  lifespanHours: String,
-  pdmFrequency: String,
-  standered_certificate: String,
-  notified_certificate: String,
-  article11B_certificate: String,
-  ec_certificate: String,
-  status: String,
-  createdAt: String,
-  infonetStatus: String
-});
-
-const Asset = mongoose.model("Asset", assetSchema);
-
-function validateSchema() {}
-module.exports.Asset = Asset;
+console.log(typeof Mdata); // class=== function
+console.log("=============", Mdata);
+console.info(Mdata);
