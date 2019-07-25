@@ -16,6 +16,29 @@ router.get("/:id", (req, res) => {
   res.send('USER "ABC" listed successfully');
 });
 
+router.post("/setuser", (req, res) => {
+  const userSchema = {
+    email: Joi.string().required(),
+    password: Joi.string()
+      .required()
+      .min(3)
+  };
+
+  /*   let result = Joi.validate(req.body, userSchema);
+  //console.log(result);
+  let error = result.error;
+  console.log(error.details[0].message);
+  console.log(error); */
+
+  let { error } = Joi.validate(req.body, userSchema);
+  if (error) {
+    console.log(error.message);
+  }
+
+  console.log(req.body);
+  res.status(200).send("user set success");
+});
+
 /* const addressSchema = Joi.object({
   country: Joi.string().required(),
   state: Joi.string(),
@@ -99,23 +122,22 @@ router.post("/", async (req, res) => {
 
 // authenticating the user
 router.post("/auth/", async (req, res) => {
-  // const result = validate(req.body);  // const error = result.error;
-  console.log("====================", req.body);
+  //const result = authUser(req.body); // const error = result.error;
+  const { error } = authUser(req.body);
 
-  const { error } = validate(req.body);
   if (error) {
     res.status(400).send(error.message);
+    return;
   }
   let user = await User.findOne({ email: req.body.email });
   console.log(user);
   if (!user) {
-    res.status(400).send("Wrong username and Password!");
+    res.status(404).send("No Use register with this email id  !");
     return;
   }
-
   try {
     const valid = await bcrypt.compare(req.body.password, user.password);
-    if (!valid) res.status(400).send("Invalid email or Password");
+    if (!valid) res.status(404).send("Invalid email or Password");
     //res.send(true);
     res.send(_.pick(user, ["_id", "name", "email"]));
   } catch (err) {
@@ -123,8 +145,8 @@ router.post("/auth/", async (req, res) => {
   }
 });
 
-function validate(req) {
-  const schema = {
+function authUser(req) {
+  const schema = Joi.object({
     email: Joi.string()
       .email()
       .required(),
@@ -132,8 +154,8 @@ function validate(req) {
       .min(5)
       .max(255)
       .required()
-  };
-  return Joi.validate(req.body, schema);
+  });
+  return Joi.validate(req, schema);
 }
 
 // DELETE API

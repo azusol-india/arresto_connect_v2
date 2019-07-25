@@ -1,6 +1,13 @@
 const express = require("express"); // return function
+const bodyParser = require("body-parser");
 const app = express();
-app.use(express.json());
+
+app.use(express.urlencoded({})); // to support URL-encoded bodies
+app.use(express.json()); // to support JSON-encoded bodies
+
+/* app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); */
+
 require("./config/database")();
 
 app.use((req, res, next) => {
@@ -21,14 +28,17 @@ app.use("/api/customers", customerRouetr);
 app.use("/api/mdata", mdataRouter);
 app.use("/api/assets", assetRouter);
 
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
   res.send("Node server running successfully !!");
 });
 
-/*
 app.get("/api", (req, res) => {
   console.log("node server running successfully !!");
   res.send("API running successfully !!");
+});
+
+app.post("/api/authenticate/", async (req, res) => {
+  console.log("post params :: ", req.body);
 }); */
 
 //console.log(process.env);
