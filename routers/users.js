@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
+const { User, validateUser } = require("../models/user");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
@@ -16,7 +16,7 @@ router.get("/:id", (req, res) => {
   res.send('USER "ABC" listed successfully');
 });
 
-const addressSchema = Joi.object({
+/* const addressSchema = Joi.object({
   country: Joi.string().required(),
   state: Joi.string(),
   city: Joi.string(),
@@ -41,7 +41,7 @@ const userSchema = Joi.object().keys({
     .min(4)
     .required(),
   profile: profileSchema
-});
+}); */
 
 // Register the USER
 router.post("/", async (req, res) => {
@@ -60,13 +60,15 @@ router.post("/", async (req, res) => {
   }); */
 
   try {
-    const valid = await Joi.validate(req.body, userSchema);
+    // const valid = await Joi.validate(req.body, userSchema);
+    const valid = await validateUser(req.body);
     console.log("joi/client  validation pass ");
     user = new User({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      profile: req.body.profile
+      profile: req.body.profile,
+      qrcode: req.body.qrcode
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
