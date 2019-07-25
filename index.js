@@ -24,6 +24,7 @@ app.get("/api", (req, res) => {
 }); */
 
 //console.log(process.env);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, server => {
   console.log("server listening at port : " + PORT);
