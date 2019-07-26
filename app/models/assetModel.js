@@ -3,29 +3,64 @@ const _ = require("lodash");
 //console.log("Connection Object=====", connection);
 // define the constructor object
 
-const assetModel = function() {
+const AssetModel = function() {
   this.table = "components";
+  this.setTypes = function(callback) {
+    connection.query("select id,type_name from type_category", function(
+      error,
+      typeResults
+    ) {
+      if (error) console.log(error);
+      else callback(typeResults);
+      //this.types = typeResults;
+      //console.log(this.types);
+    });
+  };
 };
 
 // below implementation is like  the class/ static methods
-assetModel.getAll = function(callback) {
+AssetModel.prototype.getAll = function(callback) {
+  console.log("***************************", this.table);
   //console.log(connection);
   connection.query(
     "select * from components limit 100",
-    (error, results, fields) => {
+    (error, assetRs, fields) => {
       if (error) {
-        //console.log(error.message);
         //throw error;
         callback(error, null);
       } else {
-        console.log(results);
-        callback(null, results);
+        //console.log(assetRs);
+        this.setTypes(
+          function(types) {
+            assetRs.forEach((ele, index) => {
+              console.log(this);
+              if (ele.component_expectedresult) {
+                expectedResults = JSON.parse(ele.component_expectedresult);
+                console.log(expectedResults);
+                exReList = types.filter(type => {
+                  return expectedResults.indexOf(type.id.toString()) != -1;
+                });
+                assetRs[index]["exRList"] = exReList;
+              }
+
+              if (ele.component_observation) {
+                obs = JSON.parse(ele.component_observation);
+                obsList = types.filter(type => {
+                  return obs.indexOf(type.id.toString()) != -1;
+                });
+                assetRs[index]["obsList"] = obsList;
+              }
+            });
+
+            callback(null, assetRs);
+          }.bind(this)
+        );
       }
     }
   );
 };
 
-assetModel.getByCode = function(code, callback) {
+AssetModel.prototype.getByCode = function(code, callback) {
   connection.query(
     "select * from components where component_code=?",
     [code],
@@ -39,7 +74,7 @@ assetModel.getByCode = function(code, callback) {
   );
 };
 
-assetModel.getById = function(assetId, callback) {
+AssetModel.prototype.getById = function(assetId, callback) {
   let sql = "select * from components where component_id=? OR component_code=?";
   console.log(sql);
   connection.query(sql, [assetId, assetId], function(error, results, fields) {
@@ -87,8 +122,8 @@ assetModel.getById = function(assetId, callback) {
   });
 };
 
-assetModel.insert = function(asset, callback) {};
+AssetModel.prototype.insert = function(asset, callback) {};
 
-assetModel.delete = function(assetId, callback) {};
+AssetModel.prototype.delete = function(assetId, callback) {};
 
-module.exports = assetModel;
+module.exports = new AssetModel();

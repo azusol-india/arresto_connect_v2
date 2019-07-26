@@ -6,7 +6,7 @@ const subAssetModel = require("../models/subAssetModel");
 
 // get request
 router.get("/", (req, res) => {
-  subAssetModel.getSubAssets(function(error, results) {
+  subAssetModel.getAll(function(error, results) {
     if (error) {
       //console.log(error);
       console.error(error);
